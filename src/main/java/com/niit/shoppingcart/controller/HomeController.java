@@ -2,6 +2,7 @@ package com.niit.shoppingcart.controller;
 
 import java.util.Map;
 
+
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -33,7 +34,7 @@ public class HomeController {
 	@Autowired
 	private Category category;
 
-	@RequestMapping("/")
+	@RequestMapping(value = {"/","/home"})
 	public ModelAndView onLoad(HttpSession session) {
 		log.debug("Start: method onLoad");
 
@@ -41,19 +42,19 @@ public class HomeController {
 		session.setAttribute("category", category);
 		session.setAttribute("categoryList", categoryDAO.list());
 		mv.addObject("isAdmin", "false");
-
+		mv.addObject("userClickedHome", "true");
 		log.debug("End: method onLoad");
 
 		return mv;
 	}
 
-	@RequestMapping(value = "here/register", method = RequestMethod.POST)
-	public ModelAndView registerUser(@ModelAttribute User user) {
+	@RequestMapping(value = "here/register", method = RequestMethod.GET)
+	public ModelAndView registerUser(HttpSession session) {
 		log.debug("Start: method registerUser");
 		log.info("User object going to be registered has user id: " + user.getId());
-		
+		User user = (User) session.getAttribute("user");
 		userDAO.saveOrUpdate(user);
-		ModelAndView mv = new ModelAndView("home");
+		ModelAndView mv = new ModelAndView("redirect:/");
 		mv.addObject("successMessage", "You are successfully register");
 
 		log.debug("End: method registerUser");
@@ -61,15 +62,21 @@ public class HomeController {
 	}
 
 	@RequestMapping("/loginHere")
-	public ModelAndView login() {
-		log.debug("Start: method login");
+	public ModelAndView onClickLogin() {
+		log.debug("Start: method onClickLogin");
         
 		ModelAndView mv = new ModelAndView("home");
 		mv.addObject("user", user);
 		mv.addObject("userClickedRegisterHere", "true");
 		mv.addObject("userClickedLoginHere", "true");
 		
-		log.debug("End: method login");
-		return mv;
+		log.debug("End: method onClickLogin");
+        return mv;
+        
 	}
+	
+	
+	
 }
+
+

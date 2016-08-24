@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.niit.shoppingcart.dao.CategoryDAO;
@@ -19,6 +20,9 @@ import com.niit.shoppingcart.dao.SupplierDAO;
 import com.niit.shoppingcart.model.Category;
 import com.niit.shoppingcart.model.Product;
 import com.niit.shoppingcart.model.Supplier;
+import com.niit.shoppingcart.util.FileUtil;
+import com.niit.shoppingcart.util.Util;
+
 
 @Controller
 public class ProductController {
@@ -33,9 +37,11 @@ public class ProductController {
 
 	@Autowired(required = true)
 	private SupplierDAO supplierDAO;
-	
+		
 	@Autowired
-	Product product ;
+	private Product product ;
+	
+	private String path = "E:\\Sutta\\Work\\shoppingcart\\img\\";
 
 	
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
@@ -68,12 +74,18 @@ public class ProductController {
 
 		product.setCategory_id(category.getId());
 		product.setSupplier_id(supplier.getId());
+		String newID = Util.removeComma(product.getId());
+		product.setId(newID);
 		productDAO.saveOrUpdate(product);
 		
+		MultipartFile file = product.getImage();
+		
+		FileUtil.upload(path, file,"id"+product.getId()+".jpg");
+	
 		log.debug("End: method addProduct");
 
 
-		return "redirect:/products";
+		return "redirect:/manageProducts";
 		// return "redirect:/uploadFile";
 
 	}
@@ -114,6 +126,7 @@ public class ProductController {
 	@RequestMapping(value = "product/get/{id}")
 	public String getSelectedProduct(@PathVariable("id") String id, Model model,
 			RedirectAttributes redirectAttributes) {
+		//redirectAttributes.addFlashAttribute("userClickedProductName", true);
 		redirectAttributes.addFlashAttribute("selectedProduct", productDAO.get(id));
 		return "redirect:/backToHome";
 
@@ -122,7 +135,7 @@ public class ProductController {
 	@RequestMapping(value = "/backToHome", method = RequestMethod.GET)
 	public String backToHome(@ModelAttribute("selectedProduct") 
 	        final Object selectedProduct, final Model model) {
-
+        model.addAttribute("userClickedProductName",true);
 		model.addAttribute("selectedProduct", selectedProduct);
 		//model.addAttribute("categoryList", this.categoryDAO.list());
 
@@ -137,5 +150,13 @@ public class ProductController {
 		return "home";
 
 	}*/
+	
+//	@RequestMapping(value = "product/get/{id}")
+//	public String getSelectedProduct(@PathVariable("id") String id, Model model) {
+//		 model.addAttribute("userClickedProductName",true);
+//		model.addAttribute("selectedProduct", productDAO.get(id));
+//		return "home";
+//
+//	}
 
 }

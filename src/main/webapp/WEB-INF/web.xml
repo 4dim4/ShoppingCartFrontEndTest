@@ -21,6 +21,14 @@
 		<param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
 	</context-param>
 	 <welcome-file-list> <welcome-file>home.jsp</welcome-file> </welcome-file-list> 
+	 
+	 <servlet-mapping>
+		<!-- make sure servlet-name is same as in <servlet> configuration -->
+		<servlet-name>dispatcher</servlet-name>
+		<!-- only url's with extension mentioned in url-pattern will be directed 
+			to spring controller -->
+		<url-pattern>*.obj</url-pattern>
+	</servlet-mapping>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

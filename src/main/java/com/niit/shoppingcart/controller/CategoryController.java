@@ -44,7 +44,7 @@ public class CategoryController {
 		
 		log.debug("End: method addCategories");
 
-		return "redirect:/categories";
+		return "redirect:/manageCategories";
 	}
 //	
 //	@RequestMapping(value = "category/add", method = RequestMethod.POST)
@@ -74,8 +74,8 @@ public class CategoryController {
 	}
 	
 	
-	@RequestMapping(value = "category/edit/{id}")
-	public String editCategories(@PathVariable("id") String id,ModelMap model) {
+	@RequestMapping(value = "category/edit/{name}")
+	public String editCategories(@PathVariable("name") String id,ModelMap model) {
 		log.debug("Start: method editCategories");
 		log.info("Category id going to be edited : " +id);
 		category=categoryDAO.get(id);
@@ -84,6 +84,35 @@ public class CategoryController {
 		log.debug("End: method editCategories");
 
 		return "redirect:/categories";
+	}
+	
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public String display(Model model) {
+		log.debug("Start: method onClickCategories");
+        
+		model.addAttribute("userClickedCategoryName", true);
+        
+		model.addAttribute("category", category);
+		System.out.println(category.getName());
+		log.debug("End: method onClickCategories");
+		
+		return "home";
+
+	}
+	
+	
+	
+	@RequestMapping(value = "displayProducts/{name}")
+	public String onClickCategories(@PathVariable("name")String id ,ModelMap model) {
+		log.debug("Start: method onClickCategories");
+        category = categoryDAO.getByName(id);
+		model.addAttribute("userClickedCategoryName", true);
+        System.out.println(id);
+		model.addAttribute("category", category);
+		System.out.println(category.getName());
+		log.debug("End: method onClickCategories");
+
+		return "redirect:/display";
 	}
 
 }
