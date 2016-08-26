@@ -69,7 +69,7 @@
 				<div class="col-sm-4">
 					<div class="signup-form">
 						<!--sign up form-->
-						<h2>New User Signup!</h2>
+						<h2 style="text-align: center;">New User Signup!</h2>
 						
 						<form:form modelAttribute="user">
 							<form:input path="id" pattern=".{4,7}" title="id should contains 4 to 7 characters" 

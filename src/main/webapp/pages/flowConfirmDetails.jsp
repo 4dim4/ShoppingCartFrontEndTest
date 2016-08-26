@@ -38,73 +38,55 @@
 
 <body>
 
-
+<div class="jumbotron">
 	<section id="form">
 		<!--form-->
+	
 		<div class="container">
+		
+	
 			<div class="row">
-				<div class="col-sm-4 col-sm-offset-1">
-					<div class="login-form">
-						<!--login form-->
-						<h2>Login to your account</h2>
-						<c:if test="${invalidCredentials==true}">
-						${errorMessage}
-						</c:if>
-					
-						<c:url var="action" value="/login"></c:url>
-
-						<form:form action="${action}" method="post">
-							<input type="text" placeholder="Username" name="name" />
-							<input type="password" placeholder="Password" name="password" />
-							<span> <input type="checkbox" class="checkbox">
-								Keep me signed in
-							</span>
-							<button type="submit" class="btn btn-default">Login</button>
-							</form:form>
-					</div>
-					<!--/login form-->
-				</div>
-				<div class="col-sm-1">
-					<h2 class="or">OR</h2>
-				</div>
-				<div class="col-sm-4">
+				
+							
+				<div class="col-sm-4 col-sm-offset-4 panel panel-default">
+			
 					<div class="signup-form">
 						<!--sign up form-->
-						<h2>New User Signup!</h2>
-						
+						<div class="panel-heading">New User Signup!</div>
+				
 						<form:form modelAttribute="user" method="post">
-							${user.id}
+						
+					  
+						<form:input path="id" disabled="true" readonly="true" />
 							
-								<br />
-							${user.name}
+								<form:input path="name" disabled="true" readonly="true" />
 							
-							<br/>
-							${user.password}	
+							<form:input path="password" disabled="true" readonly="true" />
 							
-							<br />
-							${user.mobile}
-								 
-						    <br />
-						    ${user.mail}		
+							<form:input path="mobile" disabled="true" readonly="true" />
 							
-							<br />
-							${user.address}
-							
-							<br />
-							
+						    <form:input path="mail" disabled="true" readonly="true" />
+						   
+							<form:input path="address" disabled="true" readonly="true" />
+							<div class="col-sm-4">
 							<button name="_eventId_edit" type="submit" class="btn btn-default">Edit</button>
+							</div>
+							<div class="col-sm-5">
 							<button name="_eventId_submit" type="submit" class="btn btn-default">Confirm Details</button>
-							
+								</div>
+							<br/>
 						</form:form>
 					</div>
+				
 					<!--/sign up form-->
 				</div>
 			</div>
 		</div>
+	
 	</section>
 	<!--/form-->
 
-
+</div>
 
 
 
